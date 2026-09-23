@@ -1,0 +1,6 @@
+openai>=1.40.0
+python-dotenv>=1.0.1
+moviepy>=1.6.0
+Pillow>=10.0.0
+numpy>=1.26.0
+Flask>=3.0.0

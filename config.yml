@@ -1,0 +1,19 @@
+# Build settings
+exclude:
+  - node_modules
+  - .git
+  - .gitignore
+  - README.md
+
+# Markdown settings
+markdown: kramdown
+
+# Theme
+theme: jekyll-theme-cayman
+
+# Title
+title: th3dr4k3r.ia
+description: Página web personal
+
+# Permalink style
+permalink: /:categories/:year/:month/:day/:title:output_ext

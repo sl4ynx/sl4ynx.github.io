@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>th3dr4k3r.ia</title>
+    <meta
+      name="description"
+      content="markyzx97.ia — generador privado de ideas para videos con IA, guiones, prompts y exportación a MP4."
+    />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      :root {
+        --bg: #060b14;
+        --bg-2: #0d1423;
+        --panel: rgba(17, 25, 39, 0.9);
+        --panel-2: rgba(24, 36, 55, 0.95);
+        --line: rgba(255,255,255,0.09);
+        --text: #edf6ff;
+        --muted: #9bb0ca;
+        --cyan: #65d9ff;
+        --blue: #4f7cff;
+        --purple: #8c6dff;
+        --green: #42f5b4;
+        --orange: #ffb454;
+        --red: #ff6666;
+      }
+
+      html { scroll-behavior: smooth; }
+
+      body {
+        margin: 0;
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+        background:
+          radial-gradient(circle at top left, rgba(79,124,255,0.25), transparent 30%),
+          radial-gradient(circle at top right, rgba(140,109,255,0.25), transparent 35%),
+          linear-gradient(180deg, var(--bg), var(--bg-2));
+        color: var(--text);
+        line-height: 1.6;
+      }
+
+      a { color: inherit; text-decoration: none; }
+
+      .container {
+        width: min(1200px, 90vw);
+        margin: 0 auto;
+      }
+
+      .nav {
+        position: sticky;
+        top: 0;
+        z-index: 10;
+        backdrop-filter: blur(18px);
+        background: rgba(6, 11, 20, 0.75);
+        border-bottom: 1px solid var(--line);
+      }
+
+      .nav-inner {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        min-height: 72px;
+        padding: 0 20px;
+      }
+
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        font-weight: 800;
+        letter-spacing: 0.05em;
+        font-size: 1.1rem;
+      }
+
+      .brand-mark {
+        width: 16px;
+        height: 16px;
+        border-radius: 5px;
+        background: linear-gradient(135deg, var(--cyan), var(--purple));
+        box-shadow: 0 0 18px rgba(101, 217, 255, 0.8);
+      }
+
+      .nav-links {
+        display: flex;
+        gap: 32px;
+        align-items: center;
+        color: var(--muted);
+        font-size: 0.95rem;
+      }
+
+      .nav-links a {
+        transition: all 0.2s ease;
+      }
+
+      .nav-links a:hover {
+        color: var(--cyan);
+      }
+
+      .nav-btn {
+        padding: 10px 20px;
+        border-radius: 999px;
+        border: 1px solid var(--line);
+        background: rgba(255,255,255,0.02);
+        color: var(--text);
+        font-weight: 600;
+        transition: all 0.2s ease;
+        cursor: pointer;
+      }
+
+      .nav-btn:hover {
+        transform: translateY(-2px);
+        background: rgba(255,255,255,0.04);
+        border-color: rgba(255,255,255,0.15);
+      }
+
+      .hero {
+        padding: 80px 0 40px;
+      }
+
+      .hero-grid {
+        display: grid;
+        grid-template-columns: 1.2fr 0.8fr;
+        align-items: center;
+        gap: 60px;
+      }
+
+      .eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 8px 14px;
+        border-radius: 999px;
+        border: 1px solid rgba(101,217,255,0.22);
+        background: rgba(101,217,255,0.08);
+        color: var(--cyan);
+        font-weight: 700;
+        font-size: 0.75rem;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        margin-bottom: 20px;
+      }
+
+      .hero h1 {
+        margin: 20px 0 24px;
+        font-size: clamp(2.4rem, 5vw, 4.2rem);
+        line-height: 1.15;
+        letter-spacing: -0.06em;
+        font-weight: 800;
+      }
+
+      .gradient-text {
+        background: linear-gradient(135deg, var(--cyan), #8fd4ff 25%, var(--purple) 70%, #f5b4ff);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+      }
+
+      .hero p {
+        margin: 0 0 32px;
+        max-width: 620px;
+        color: var(--muted);
+        font-size: 1.05rem;
+        line-height: 1.8;
+      }
+
+      .hero-actions {
+        display: flex;
+        gap: 16px;
+        align-items: center;
+        margin-bottom: 48px;
+        flex-wrap: wrap;
+      }
+
+      .button-primary,
+      .button-secondary {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 48px;
+        padding: 0 24px;
+        border-radius: 10px;
+        font-weight: 700;
+        border: 1px solid transparent;
+        transition: all 0.2s ease;
+        cursor: pointer;
+        font-size: 0.95rem;
+      }
+
+      .button-primary {
+        background: linear-gradient(135deg, var(--cyan), var(--purple));
+        color: #07101b;
+        box-shadow: 0 12px 28px rgba(101,217,255,0.25);
+      }
+
+      .button-secondary {
+        color: var(--text);
+        border-color: var(--line);
+        background: rgba(255,255,255,0.02);
+      }
+
+      .button-primary:hover,
+      .button-secondary:hover,
+      .nav-btn:hover {
+        transform: translateY(-2px);
+      }
+
+      .button-primary:hover {
+        box-shadow: 0 16px 36px rgba(101,217,255,0.35);
+      }
+
+      .stats {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(140px, 1fr));
+        gap: 16px;
+        max-width: 560px;
+      }
+
+      .stat {
+        padding: 20px 20px;
+        border-radius: 16px;
+        background: rgba(255,255,255,0.03);
+        border: 1px solid var(--line);
+        transition: all 0.2s ease;
+      }
+
+      .stat:hover {
+        background: rgba(255,255,255,0.05);
+        border-color: rgba(101, 217, 255, 0.3);
+      }
+
+      .stat strong {
+        display: block;
+        font-size: 1.8rem;
+        margin-bottom: 6px;
+        font-weight: 800;
+      }
+
+      .stat span {
+        color: var(--muted);
+        font-size: 0.8rem;
+        font-weight: 500;
+      }
+
+      .showcase {
+        position: relative;
+      }
+
+      .glass-card {
+        position: relative;
+        background: linear-gradient(180deg, rgba(18, 28, 44, 0.95), rgba(10,15,24,0.96));
+        border: 1px solid var(--line);
+        border-radius: 24px;
+        padding: 28px;
+        box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+        backdrop-filter: blur(10px);
+      }
+
+      .mockup {
+        min-height: 440px;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        position: relative;
+      }
+
+      .mockup-top {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding-bottom: 16px;
+        border-bottom: 1px solid var(--line);
+      }
+
+      .dots {
+        display: flex;
+        gap: 8px;
+      }
+
+      .dots span {
+        width: 10px;
+        height: 10px;
+        display: block;
+        border-radius: 50%;
+      }
+
+      .dots span:nth-child(1) { background: var(--red); }
+      .dots span:nth-child(2) { background: var(--orange); }
+      .dots span:nth-child(3) { background: var(--green); }
+
+      .badge {
+        padding: 8px 12px;
+        border-radius: 999px;
+        background: rgba(66,245,180,0.12);
+        border: 1px solid rgba(66,245,180,0.25);
+        color: var(--green);
+        font-size: 0.7rem;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      .prompt-box {
+        padding: 20px;
+        border-radius: 16px;
+        background: rgba(255,255,255,0.03);
+        border: 1px solid var(--line);
+      }
+
+      .prompt-box h3 {
+        margin: 0 0 12px;
+        font-size: 0.8rem;
+        color: var(--muted);
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        font-weight: 600;
+      }
+
+      .prompt-content {
+        color: var(--text);
+        line-height: 1.6;
+        font-size: 0.9rem;
+      }
+
+      .mini-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 14px;
+      }
+
+      .mini-card {
+        padding: 16px;
+        border-radius: 14px;
+        background: rgba(255,255,255,0.025);
+        border: 1px solid var(--line);
+        transition: all 0.2s ease;
+      }
+
+      .mini-card:hover {
+        background: rgba(255,255,255,0.04);
+        border-color: rgba(101, 217, 255, 0.2);
+      }
+
+      .mini-card strong {
+        display: block;
+        margin-bottom: 6px;
+        color: var(--cyan);
+        font-weight: 700;
+        font-size: 0.9rem;
+      }
+
+      .mini-card span {
+        color: var(--muted);
+        font-size: 0.85rem;
+        line-height: 1.5;
+      }
+
+      section {
+        padding: 60px 0;
+      }
+
+      .section-header {
+        margin-bottom: 48px;
+      }
+
+      .section-header h2 {
+        font-size: clamp(1.8rem, 3vw, 2.8rem);
+        margin: 0 0 16px;
+        letter-spacing: -0.05em;
+        font-weight: 800;
+      }
+
+      .section-header p {
+        margin: 0;
+        color: var(--muted);
+        line-height: 1.8;
+        font-size: 1rem;
+        max-width: 600px;
+      }
+
+      .features {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 24px;
+      }
+
+      .feature-box {
+        padding: 28px;
+        background: rgba(255,255,255,0.025);
+        border: 1px solid var(--line);
+        border-radius: 18px;
+        transition: all 0.3s ease;
+      }
+
+      .feature-box:hover {
+        background: rgba(255,255,255,0.04);
+        border-color: rgba(101, 217, 255, 0.3);
+        transform: translateY(-4px);
+      }
+
+      .feature-icon {
+        width: 48px;
+        height: 48px;
+        border-radius: 12px;
+        display: grid;
+        place-items: center;
+        margin-bottom: 20px;
+        background: linear-gradient(135deg, rgba(101,217,255,0.2), rgba(140,109,255,0.2));
+        font-size: 1.4rem;
+      }
+
+      .feature-box h3 {
+        margin: 0 0 12px;
+        font-size: 1.15rem;
+        font-weight: 700;
+      }
+
+      .feature-box p {
+        margin: 0;
+        color: var(--muted);
+        line-height: 1.7;
+        font-size: 0.95rem;
+      }
+
+      .cta {
+        padding: 32px 40px;
+        border-radius: 20px;
+        border: 1px solid var(--line);
+        background: linear-gradient(135deg, rgba(79,124,255,0.12), rgba(140,109,255,0.10));
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 32px;
+      }
+
+      .cta h3 {
+        margin: 0 0 8px;
+        font-size: clamp(1.6rem, 3vw, 2.2rem);
+        letter-spacing: -0.05em;
+        font-weight: 800;
+      }
+
+      .cta p {
+        margin: 0;
+        color: var(--muted);
+        line-height: 1.6;
+      }
+
+      .footer {
+        padding: 40px 0;
+        color: var(--muted);
+        text-align: center;
+        border-top: 1px solid var(--line);
+        background: rgba(6, 11, 20, 0.4);
+        font-size: 0.9rem;
+      }
+
+      @media (max-width: 900px) {
+        .hero-grid, .features {
+          grid-template-columns: 1fr;
+        }
+
+        .nav-inner {
+          flex-wrap: wrap;
+          gap: 12px;
+          padding: 12px 20px;
+        }
+
+        .cta {
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 20px;
+        }
+
+        .hero {
+          padding: 60px 0 30px;
+        }
+
+        section {
+          padding: 50px 0;
+        }
+
+        .hero-grid {
+          gap: 40px;
+        }
+
+        .nav-links {
+          gap: 16px;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .nav-inner {
+          min-height: 60px;
+        }
+
+        .hero h1 {
+          font-size: clamp(1.8rem, 4vw, 2.4rem);
+        }
+
+        .stats {
+          grid-template-columns: 1fr;
+        }
+
+        .mini-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .features {
+          gap: 16px;
+        }
+
+        .feature-box {
+          padding: 20px;
+        }
+
+        .button-primary,
+        .button-secondary {
+          font-size: 0.9rem;
+          min-height: 44px;
+          padding: 0 20px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="nav">
+      <div class="container nav-inner">
+        <div class="brand">
+          <span class="brand-mark"></span>
+          <span>th3dr4k3r.ia</span>
+        </div>
+
+        <nav class="nav-links">
+          <a href="#features">Características</a>
+          <a href="#workflow">Flujo</a>
+          <a href="#acceso" class="nav-btn">Acceso privado</a>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="container hero-grid">
+          <div>
+            <div class="eyebrow">IA + Video + Visual</div>
+            <h1>
+              Crea ideas de video<br />
+              con una <span class="gradient-text">inteligencia que entiende tu visión</span>
+            </h1>
+            <p>
+              th3dr4k3r.ia transforma tu idea en un pack completo: guion, prompts,
+              estilo visual, duración, audio y exportación lista para generar contenido audiovisual con IA.
+            </p>
+
+            <div class="hero-actions">
+              <a href="#acceso" class="button-primary">Entrar al panel</a>
+              <a href="#features" class="button-secondary">Ver funciones</a>
+            </div>
+
+            <div class="stats">
+              <div class="stat">
+                <strong>5</strong>
+                <span>escenas / idea</span>
+              </div>
+              <div class="stat">
+                <strong>∞</strong>
+                <span>conceptos</span>
+              </div>
+              <div class="stat">
+                <strong>MP4</strong>
+                <span>exportación</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="showcase">
+            <div class="glass-card mockup">
+              <div class="mockup-top">
+                <div class="dots">
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                </div>
+                <div class="badge">AI Studio</div>
+              </div>
+
+              <div class="prompt-box">
+                <h3>Prompt del proyecto</h3>
+                <div class="prompt-content">
+                  "Drone futurista sobrevolando una ciudad cyberpunk al amanecer, iluminación azul,
+                  movimiento lento, cámara aérea, estilo cinematográfico, atmósfera épica."
+                </div>
+              </div>
+
+              <div class="mini-grid">
+                <div class="mini-card">
+                  <strong>Guion</strong>
+                  <span>5 escenas con narrativa y ritmo visual.</span>
+                </div>
+                <div class="mini-card">
+                  <strong>Prompt imagen</strong>
+                  <span>Referencia clave para el fotograma principal.</span>
+                </div>
+                <div class="mini-card">
+                  <strong>Prompt video</strong>
+                  <span>Movimiento, cámara, estilo, duración y transiciones.</span>
+                </div>
+                <div class="mini-card">
+                  <strong>Export</strong>
+                  <span>Video listo para MP4 y difusión.</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="features">
+        <div class="container">
+          <div class="section-header">
+            <h2>Todo lo que necesitas para generar contenido audiovisual</h2>
+            <p>
+              Diseñado para crear ideas de video con IA, reforzar la dirección visual y convertir el concepto en un flujo productivo.
+            </p>
+          </div>
+
+          <div class="features">
+            <div class="feature-box">
+              <div class="feature-icon">🎬</div>
+              <h3>Guiones inteligentes</h3>
+              <p>Genera una narrativa con escenas, beats visuales, ritmo y estructura cinematográfica.</p>
+            </div>
+            <div class="feature-box">
+              <div class="feature-icon">🖼️</div>
+              <h3>Prompts para imagen</h3>
+              <p>Diseña referencias visuales detalladas para lograr imágenes clave con personalidad.</p>
+            </div>
+            <div class="feature-box">
+              <div class="feature-icon">🎞️</div>
+              <h3>Prompts de video</h3>
+              <p>Incluye cámara, movimiento, estilo y duración para herramientas de generación de video.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="workflow">
+        <div class="container">
+          <div class="section-header">
+            <h2>Flujo rápido</h2>
+            <p>Un proceso simple: describe, ajusta, genera y exporta.</p>
+          </div>
+
+          <div class="features">
+            <div class="feature-box">
+              <div class="feature-icon">1</div>
+              <h3>Describe la idea</h3>
+              <p>Escribe la escena, el estilo, el ambiente o la acción central.</p>
+            </div>
+            <div class="feature-box">
+              <div class="feature-icon">2</div>
+              <h3>Configura la duración</h3>
+              <p>Fija la duración en minutos para adaptar la narrativa al tiempo deseado.</p>
+            </div>
+            <div class="feature-box">
+              <div class="feature-icon">3</div>
+              <h3>Genera y exporta</h3>
+              <p>Recibe el resultado y exporta un MP4 visual listo para usar.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="acceso">
+        <div class="container">
+          <div class="cta">
+            <div>
+              <h3>Acceso privado</h3>
+              <p>Panel exclusivo para crear ideas premium, con control y experiencia enfocada en contenido audiovisual.</p>
+            </div>
+            <a href="login.html" class="button-primary">Entrar</a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="container">th3dr4k3r.ia © 2026</div>
+    </footer>
+  </body>
+</html>

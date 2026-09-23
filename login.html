@@ -1,0 +1,936 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>th3dr4k3r.ia - Acceso privado</title>
+    <meta
+      name="description"
+      content="Acceso privado a th3dr4k3r.ia — generador de ideas para videos con IA."
+    />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      :root {
+        --bg: #060b14;
+        --bg-2: #0d1423;
+        --panel: rgba(17, 25, 39, 0.9);
+        --panel-2: rgba(24, 36, 55, 0.95);
+        --line: rgba(255,255,255,0.09);
+        --text: #edf6ff;
+        --muted: #9bb0ca;
+        --cyan: #65d9ff;
+        --blue: #4f7cff;
+        --purple: #8c6dff;
+        --green: #42f5b4;
+        --orange: #ffb454;
+        --red: #ff6666;
+      }
+
+      body {
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+        background:
+          radial-gradient(circle at top left, rgba(79,124,255,0.25), transparent 30%),
+          radial-gradient(circle at top right, rgba(140,109,255,0.25), transparent 35%),
+          linear-gradient(180deg, var(--bg), var(--bg-2));
+        color: var(--text);
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        line-height: 1.6;
+      }
+
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      .container {
+        width: min(1200px, 90vw);
+        margin: 0 auto;
+      }
+
+      /* Navigation */
+      .nav {
+        position: sticky;
+        top: 0;
+        z-index: 10;
+        backdrop-filter: blur(18px);
+        background: rgba(6, 11, 20, 0.75);
+        border-bottom: 1px solid var(--line);
+      }
+
+      .nav-inner {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        min-height: 72px;
+        padding: 0 20px;
+      }
+
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        font-weight: 800;
+        letter-spacing: 0.05em;
+        font-size: 1.1rem;
+      }
+
+      .brand-mark {
+        width: 16px;
+        height: 16px;
+        border-radius: 5px;
+        background: linear-gradient(135deg, var(--cyan), var(--purple));
+        box-shadow: 0 0 18px rgba(101, 217, 255, 0.8);
+      }
+
+      .nav-btn {
+        padding: 10px 20px;
+        border-radius: 999px;
+        border: 1px solid var(--line);
+        background: rgba(255,255,255,0.02);
+        color: var(--text);
+        font-weight: 600;
+        transition: all 0.2s ease;
+        cursor: pointer;
+        font-size: 0.9rem;
+      }
+
+      .nav-btn:hover {
+        transform: translateY(-2px);
+        background: rgba(255,255,255,0.04);
+        border-color: rgba(255,255,255,0.15);
+      }
+
+      /* Main Content */
+      main {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 60px 20px;
+      }
+
+      .login-container {
+        width: 100%;
+      }
+
+      .login-grid {
+        display: grid;
+        grid-template-columns: 1fr 1.2fr;
+        align-items: center;
+        gap: 80px;
+      }
+
+      /* Left Side - Intro */
+      .login-intro {
+        padding-right: 20px;
+      }
+
+      .eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 8px 14px;
+        border-radius: 999px;
+        border: 1px solid rgba(101,217,255,0.22);
+        background: rgba(101,217,255,0.08);
+        color: var(--cyan);
+        font-weight: 700;
+        font-size: 0.75rem;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        margin-bottom: 20px;
+      }
+
+      .login-intro h1 {
+        font-size: clamp(2rem, 5vw, 3.2rem);
+        margin-bottom: 20px;
+        line-height: 1.2;
+        letter-spacing: -0.06em;
+        font-weight: 800;
+      }
+
+      .gradient-text {
+        background: linear-gradient(135deg, var(--cyan), #8fd4ff 25%, var(--purple) 70%, #f5b4ff);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+      }
+
+      .login-intro p {
+        font-size: 1rem;
+        color: var(--muted);
+        line-height: 1.8;
+        margin-bottom: 24px;
+        max-width: 500px;
+      }
+
+      .feature-list {
+        list-style: none;
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+        margin: 32px 0 0;
+      }
+
+      .feature-list li {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        color: var(--muted);
+        font-size: 0.95rem;
+        padding: 8px 0;
+      }
+
+      .feature-list li::before {
+        content: "✓";
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 24px;
+        height: 24px;
+        min-width: 24px;
+        border-radius: 6px;
+        background: rgba(66, 245, 180, 0.15);
+        border: 1px solid rgba(66, 245, 180, 0.3);
+        color: var(--green);
+        font-weight: 800;
+        font-size: 0.9rem;
+      }
+
+      /* Right Side - Login Card */
+      .login-card {
+        background: linear-gradient(135deg, rgba(18, 28, 44, 0.95), rgba(10, 15, 24, 0.96));
+        border: 1px solid var(--line);
+        border-radius: 24px;
+        padding: 44px;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+        backdrop-filter: blur(10px);
+      }
+
+      .auth-tabs {
+        display: flex;
+        gap: 0;
+        border-bottom: 2px solid var(--line);
+        margin-bottom: 36px;
+      }
+
+      .auth-tab {
+        flex: 1;
+        padding: 14px 0;
+        background: none;
+        border: none;
+        color: var(--muted);
+        font-weight: 600;
+        font-size: 0.95rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        position: relative;
+        text-align: center;
+      }
+
+      .auth-tab:hover {
+        color: var(--text);
+      }
+
+      .auth-tab.active {
+        color: var(--cyan);
+        border-bottom: 2px solid var(--cyan);
+        margin-bottom: -2px;
+      }
+
+      .auth-panel {
+        display: none;
+        animation: fadeIn 0.3s ease;
+      }
+
+      .auth-panel.active {
+        display: block;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(5px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .auth-panel h2 {
+        font-size: 1.5rem;
+        font-weight: 800;
+        margin-bottom: 8px;
+        letter-spacing: -0.02em;
+      }
+
+      .auth-panel > p {
+        color: var(--muted);
+        font-size: 0.95rem;
+        margin-bottom: 28px;
+        line-height: 1.6;
+      }
+
+      .auth-form {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+      }
+
+      .form-group {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+
+      .auth-form label {
+        font-weight: 600;
+        font-size: 0.85rem;
+        color: var(--text);
+        letter-spacing: 0.02em;
+      }
+
+      .auth-form input[type="text"],
+      .auth-form input[type="email"],
+      .auth-form input[type="password"] {
+        width: 100%;
+        padding: 12px 16px;
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        background: rgba(255, 255, 255, 0.04);
+        color: var(--text);
+        font-family: 'Inter', inherit;
+        font-size: 0.95rem;
+        transition: all 0.2s ease;
+      }
+
+      .auth-form input::placeholder {
+        color: rgba(155, 176, 202, 0.6);
+      }
+
+      .auth-form input[type="text"]:focus,
+      .auth-form input[type="email"]:focus,
+      .auth-form input[type="password"]:focus {
+        outline: none;
+        border-color: var(--cyan);
+        background: rgba(101, 217, 255, 0.08);
+        box-shadow: 0 0 0 3px rgba(101, 217, 255, 0.1);
+      }
+
+      .auth-form input.error {
+        border-color: var(--red);
+        background: rgba(255, 102, 102, 0.08);
+      }
+
+      .error-message {
+        font-size: 0.8rem;
+        color: var(--red);
+        margin-top: 4px;
+        display: none;
+      }
+
+      .error-message.show {
+        display: block;
+      }
+
+      .password-group {
+        position: relative;
+      }
+
+      .password-toggle {
+        position: absolute;
+        right: 14px;
+        top: 50%;
+        transform: translateY(-50%);
+        background: none;
+        border: none;
+        color: var(--muted);
+        font-size: 0.8rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        padding: 4px 8px;
+      }
+
+      .password-toggle:hover {
+        color: var(--cyan);
+      }
+
+      .auth-remember {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-top: 6px;
+      }
+
+      .auth-remember label {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        cursor: pointer;
+        font-size: 0.9rem;
+        font-weight: 500;
+        color: var(--muted);
+      }
+
+      .auth-remember input[type="checkbox"] {
+        width: 16px;
+        height: 16px;
+        cursor: pointer;
+        accent-color: var(--cyan);
+      }
+
+      .button-primary {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 48px;
+        padding: 0 24px;
+        border-radius: 10px;
+        font-weight: 700;
+        border: none;
+        background: linear-gradient(135deg, var(--cyan), var(--purple));
+        color: #07101b;
+        box-shadow: 0 12px 28px rgba(101, 217, 255, 0.25);
+        font-size: 0.95rem;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        width: 100%;
+      }
+
+      .button-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 16px 36px rgba(101, 217, 255, 0.35);
+      }
+
+      .button-primary:active {
+        transform: translateY(0);
+      }
+
+      .button-primary:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+        transform: none;
+      }
+
+      .auth-divider {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin: 24px 0;
+      }
+
+      .auth-divider-line {
+        flex: 1;
+        height: 1px;
+        background: var(--line);
+      }
+
+      .auth-divider-text {
+        color: var(--muted);
+        font-size: 0.8rem;
+        font-weight: 500;
+      }
+
+      .success-message {
+        padding: 12px 16px;
+        border-radius: 10px;
+        background: rgba(66, 245, 180, 0.15);
+        border: 1px solid rgba(66, 245, 180, 0.3);
+        color: var(--green);
+        font-size: 0.9rem;
+        margin-bottom: 20px;
+        display: none;
+      }
+
+      .success-message.show {
+        display: block;
+      }
+
+      /* Footer */
+      .footer {
+        padding: 32px 20px;
+        border-top: 1px solid var(--line);
+        background: rgba(6, 11, 20, 0.4);
+        text-align: center;
+        color: var(--muted);
+        font-size: 0.9rem;
+      }
+
+      /* Responsive */
+      @media (max-width: 768px) {
+        .login-grid {
+          grid-template-columns: 1fr;
+          gap: 40px;
+        }
+
+        .login-intro {
+          padding-right: 0;
+          order: 2;
+        }
+
+        .login-card {
+          order: 1;
+          padding: 32px;
+        }
+
+        main {
+          padding: 40px 20px;
+        }
+
+        .login-intro h1 {
+          font-size: clamp(1.8rem, 4vw, 2.4rem);
+        }
+
+        .nav-inner {
+          min-height: 60px;
+        }
+      }
+
+      @media (max-width: 480px) {
+        main {
+          padding: 30px 16px;
+        }
+
+        .login-card {
+          padding: 24px;
+          border-radius: 16px;
+        }
+
+        .auth-form {
+          gap: 16px;
+        }
+
+        .button-primary {
+          min-height: 44px;
+          font-size: 0.9rem;
+        }
+
+        .login-intro h1 {
+          font-size: 1.6rem;
+        }
+
+        .login-intro p {
+          font-size: 0.9rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="nav">
+      <div class="container nav-inner">
+        <div class="brand">
+          <span class="brand-mark"></span>
+          <span>th3dr4k3r.ia</span>
+        </div>
+
+        <nav>
+          <a href="index.html" class="nav-btn">← Volver a inicio</a>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <div class="container login-container">
+        <div class="login-grid">
+          <div class="login-intro">
+            <div class="eyebrow">Acceso privado</div>
+            <h1>
+              Comienza a crear<br />
+              <span class="gradient-text">ideas de video premium</span>
+            </h1>
+            <p>
+              Accede a tu panel exclusivo y transforma tus ideas en videos completos
+              con guiones profesionales, prompts personalizados y exportación a MP4.
+            </p>
+
+            <ul class="feature-list">
+              <li>Generación instantánea de guiones cinematográficos</li>
+              <li>Prompts profesionales de imagen y video</li>
+              <li>Exportación directa en MP4 optimizado</li>
+            </ul>
+          </div>
+
+          <div class="login-card">
+            <div class="auth-tabs">
+              <button class="auth-tab active" data-auth-tab="login" type="button">Iniciar sesión</button>
+              <button class="auth-tab" data-auth-tab="register" type="button">Registrarse</button>
+            </div>
+
+            <div class="auth-panel active" id="loginPanel">
+              <h2>Bienvenido de vuelta</h2>
+              <p>Accede con tu correo y contraseña para seguir creando contenido increíble.</p>
+
+              <div class="success-message" id="loginSuccess"></div>
+
+              <form id="loginForm" class="auth-form">
+                <div class="form-group">
+                  <label for="loginEmail">Correo electrónico</label>
+                  <input id="loginEmail" type="email" placeholder="tu@correo.com" required />
+                  <div class="error-message" id="loginEmailError"></div>
+                </div>
+
+                <div class="form-group">
+                  <label for="loginPassword">Contraseña</label>
+                  <div class="password-group">
+                    <input id="loginPassword" type="password" placeholder="Tu contraseña" required />
+                    <button type="button" class="password-toggle" aria-label="Mostrar u ocultar contraseña">Mostrar</button>
+                  </div>
+                  <div class="error-message" id="loginPasswordError"></div>
+                </div>
+
+                <div class="auth-remember">
+                  <input id="rememberMe" type="checkbox" />
+                  <label for="rememberMe">Recuérdame en este dispositivo</label>
+                </div>
+
+                <button type="submit" class="button-primary" id="loginBtn">Entrar al panel</button>
+              </form>
+            </div>
+
+            <div class="auth-panel" id="registerPanel">
+              <h2>Crea tu cuenta</h2>
+              <p>Regístrate para acceder a tu panel privado y comienza a crear videos con IA.</p>
+
+              <div class="success-message" id="registerSuccess"></div>
+
+              <form id="registerForm" class="auth-form">
+                <div class="form-group">
+                  <label for="registerUsername">Usuario</label>
+                  <input id="registerUsername" type="text" placeholder="Tu usuario" required />
+                  <div class="error-message" id="registerUsernameError"></div>
+                </div>
+
+                <div class="form-group">
+                  <label for="registerEmail">Correo electrónico</label>
+                  <input id="registerEmail" type="email" placeholder="tu@correo.com" required />
+                  <div class="error-message" id="registerEmailError"></div>
+                </div>
+
+                <div class="form-group">
+                  <label for="registerPassword">Contraseña</label>
+                  <div class="password-group">
+                    <input id="registerPassword" type="password" placeholder="Crea una contraseña segura" required />
+                    <button type="button" class="password-toggle" aria-label="Mostrar u ocultar contraseña">Mostrar</button>
+                  </div>
+                  <div class="error-message" id="registerPasswordError"></div>
+                </div>
+
+                <button type="submit" class="button-primary" id="registerBtn">Registrarme</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="container">th3dr4k3r.ia © 2026 — Generador privado de ideas para videos con IA</div>
+    </footer>
+
+    <script>
+      // ======================
+      // AUTHENTICATION SYSTEM
+      // ======================
+
+      const AUTH_KEY = 'th3dr4k3r_users';
+      const SESSION_KEY = 'th3dr4k3r_session';
+
+      // Initialize users database in localStorage (if not exists)
+      function initializeUsers() {
+        if (!localStorage.getItem(AUTH_KEY)) {
+          const defaultUser = {
+            id: 'user_1',
+            username: 'th3dr4k3r',
+            email: 'admin@th3dr4k3r.ia',
+            password: btoa('admin123'), // Base64 encoding (basic encryption)
+            createdAt: new Date().toISOString()
+          };
+          localStorage.setItem(AUTH_KEY, JSON.stringify([defaultUser]));
+        }
+      }
+
+      // Get all users from localStorage
+      function getUsers() {
+        const users = localStorage.getItem(AUTH_KEY);
+        return users ? JSON.parse(users) : [];
+      }
+
+      // Save users to localStorage
+      function saveUsers(users) {
+        localStorage.setItem(AUTH_KEY, JSON.stringify(users));
+      }
+
+      // Validate email format
+      function validateEmail(email) {
+        const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return re.test(email);
+      }
+
+      // Validate password strength
+      function validatePassword(password) {
+        return password.length >= 6;
+      }
+
+      // Clear error messages
+      function clearErrors() {
+        document.querySelectorAll('.error-message').forEach(msg => {
+          msg.classList.remove('show');
+          msg.textContent = '';
+        });
+        document.querySelectorAll('input').forEach(input => {
+          input.classList.remove('error');
+        });
+      }
+
+      // Show error message
+      function showError(fieldId, message) {
+        const input = document.getElementById(fieldId);
+        const errorMsg = document.getElementById(fieldId + 'Error');
+        if (input && errorMsg) {
+          input.classList.add('error');
+          errorMsg.textContent = message;
+          errorMsg.classList.add('show');
+        }
+      }
+
+      // Show success message
+      function showSuccess(messageId, message) {
+        const msgElement = document.getElementById(messageId);
+        if (msgElement) {
+          msgElement.textContent = message;
+          msgElement.classList.add('show');
+          setTimeout(() => {
+            msgElement.classList.remove('show');
+          }, 3000);
+        }
+      }
+
+      // Handle login
+      function handleLogin(e) {
+        e.preventDefault();
+        clearErrors();
+
+        const email = document.getElementById('loginEmail').value.trim();
+        const password = document.getElementById('loginPassword').value;
+        const rememberMe = document.getElementById('rememberMe').checked;
+        const loginBtn = document.getElementById('loginBtn');
+
+        let hasErrors = false;
+
+        // Validation
+        if (!email) {
+          showError('loginEmail', 'Por favor ingresa tu correo');
+          hasErrors = true;
+        } else if (!validateEmail(email)) {
+          showError('loginEmail', 'Correo inválido');
+          hasErrors = true;
+        }
+
+        if (!password) {
+          showError('loginPassword', 'Por favor ingresa tu contraseña');
+          hasErrors = true;
+        }
+
+        if (hasErrors) return;
+
+        // Simulate network request
+        loginBtn.disabled = true;
+        loginBtn.textContent = 'Ingresando...';
+
+        setTimeout(() => {
+          const users = getUsers();
+          const user = users.find(u => u.email === email && btoa(password) === u.password);
+
+          if (user) {
+            // Create session
+            const session = {
+              userId: user.id,
+              username: user.username,
+              email: user.email,
+              loginTime: new Date().toISOString()
+            };
+            localStorage.setItem(SESSION_KEY, JSON.stringify(session));
+
+            // If remember me is checked, save credentials
+            if (rememberMe) {
+              localStorage.setItem('rememberEmail', email);
+            } else {
+              localStorage.removeItem('rememberEmail');
+            }
+
+            showSuccess('loginSuccess', '¡Acceso exitoso! Redireccionando al panel...');
+            
+            setTimeout(() => {
+              window.location.href = 'dashboard.html';
+            }, 1500);
+          } else {
+            showError('loginEmail', 'Correo o contraseña incorrectos');
+          }
+
+          loginBtn.disabled = false;
+          loginBtn.textContent = 'Entrar al panel';
+        }, 800);
+      }
+
+      // Handle registration
+      function handleRegister(e) {
+        e.preventDefault();
+        clearErrors();
+
+        const username = document.getElementById('registerUsername').value.trim();
+        const email = document.getElementById('registerEmail').value.trim();
+        const password = document.getElementById('registerPassword').value;
+        const registerBtn = document.getElementById('registerBtn');
+
+        let hasErrors = false;
+
+        // Validation
+        if (!username) {
+          showError('registerUsername', 'Por favor ingresa un usuario');
+          hasErrors = true;
+        } else if (username.length < 3) {
+          showError('registerUsername', 'El usuario debe tener al menos 3 caracteres');
+          hasErrors = true;
+        }
+
+        if (!email) {
+          showError('registerEmail', 'Por favor ingresa tu correo');
+          hasErrors = true;
+        } else if (!validateEmail(email)) {
+          showError('registerEmail', 'Correo inválido');
+          hasErrors = true;
+        }
+
+        if (!password) {
+          showError('registerPassword', 'Por favor ingresa una contraseña');
+          hasErrors = true;
+        } else if (!validatePassword(password)) {
+          showError('registerPassword', 'La contraseña debe tener al menos 6 caracteres');
+          hasErrors = true;
+        }
+
+        if (hasErrors) return;
+
+        // Check if email already exists
+        const users = getUsers();
+        if (users.some(u => u.email === email)) {
+          showError('registerEmail', 'Este correo ya está registrado');
+          return;
+        }
+
+        if (users.some(u => u.username === username)) {
+          showError('registerUsername', 'Este usuario ya existe');
+          return;
+        }
+
+        // Simulate network request
+        registerBtn.disabled = true;
+        registerBtn.textContent = 'Registrando...';
+
+        setTimeout(() => {
+          // Create new user
+          const newUser = {
+            id: 'user_' + Date.now(),
+            username: username,
+            email: email,
+            password: btoa(password), // Base64 encoding
+            createdAt: new Date().toISOString()
+          };
+
+          users.push(newUser);
+          saveUsers(users);
+
+          // Auto-login after registration
+          const session = {
+            userId: newUser.id,
+            username: newUser.username,
+            email: newUser.email,
+            loginTime: new Date().toISOString()
+          };
+          localStorage.setItem(SESSION_KEY, JSON.stringify(session));
+
+          showSuccess('registerSuccess', '¡Cuenta creada exitosamente! Redireccionando...');
+
+          setTimeout(() => {
+            window.location.href = 'dashboard.html';
+          }, 1500);
+
+          registerBtn.disabled = false;
+          registerBtn.textContent = 'Registrarme';
+        }, 800);
+      }
+
+      // Tab switching
+      document.querySelectorAll('[data-auth-tab]').forEach(tab => {
+        tab.addEventListener('click', () => {
+          const tabName = tab.getAttribute('data-auth-tab');
+          
+          // Remove active from all tabs and panels
+          document.querySelectorAll('.auth-tab').forEach(t => t.classList.remove('active'));
+          document.querySelectorAll('.auth-panel').forEach(p => p.classList.remove('active'));
+          
+          // Add active to clicked tab and corresponding panel
+          tab.classList.add('active');
+          document.getElementById(tabName + 'Panel').classList.add('active');
+          clearErrors();
+        });
+      });
+
+      // Password toggle
+      document.querySelectorAll('.password-toggle').forEach(button => {
+        button.addEventListener('click', (e) => {
+          e.preventDefault();
+          const input = button.previousElementSibling;
+          if (input.type === 'password') {
+            input.type = 'text';
+            button.textContent = 'Ocultar';
+          } else {
+            input.type = 'password';
+            button.textContent = 'Mostrar';
+          }
+        });
+      });
+
+      // Form handling
+      document.getElementById('loginForm').addEventListener('submit', handleLogin);
+      document.getElementById('registerForm').addEventListener('submit', handleRegister);
+
+      // Initialize on page load
+      document.addEventListener('DOMContentLoaded', () => {
+        initializeUsers();
+        
+        // Auto-fill email if "remember me" was checked
+        const savedEmail = localStorage.getItem('rememberEmail');
+        if (savedEmail) {
+          document.getElementById('loginEmail').value = savedEmail;
+          document.getElementById('rememberMe').checked = true;
+        }
+
+        // Redirect to dashboard if already logged in
+        const session = localStorage.getItem(SESSION_KEY);
+        if (session) {
+          window.location.href = 'dashboard.html';
+        }
+      });
+
+      // Debug: Print default credentials
+      console.log('📝 Credenciales de prueba:');
+      console.log('Email: admin@th3dr4k3r.ia');
+      console.log('Contraseña: admin123');
+    </script>
+  </body>
+</html>
