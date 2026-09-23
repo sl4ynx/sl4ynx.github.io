@@ -1,0 +1,29 @@
+{
+  "name": "th3dr4k3r-backend",
+  "version": "1.0.0",
+  "description": "Backend API para generador de videos con IA - th3dr4k3r.ia",
+  "main": "server.js",
+  "type": "commonjs",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "keywords": [
+    "video-generation",
+    "ai",
+    "replicate",
+    "api"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.2",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1"
+  },
+  "devDependencies": {},
+  "engines": {
+    "node": ">=16.0.0",
+    "npm": ">=8.0.0"
+  }
+}
