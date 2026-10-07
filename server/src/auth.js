@@ -24,12 +24,6 @@ export function requireAuth(req, res, next) {
     const payload = jwt.verify(token, config.jwtSecret, { algorithms: ['HS256'] });
     const user = db.prepare('SELECT * FROM users WHERE id = ?').get(payload.sub);
     if (!user || user.token_version !== payload.tv) throw new Error('sesión inválida');
-    const today = new Date().toISOString().slice(0, 10);
-    if (user.credits_day !== today) {
-      db.prepare('UPDATE users SET credits = ?, credits_day = ? WHERE id = ?').run(config.dailyCredits, today, user.id);
-      user.credits = config.dailyCredits;
-      user.credits_day = today;
-    }
     req.user = user;
     next();
   } catch {
@@ -43,7 +37,5 @@ export const publicUser = (u) => ({
   name: u.name,
   email: u.email,
   plan: u.plan,
-  credits: u.credits,
-  dailyCredits: config.dailyCredits,
   createdAt: u.created_at,
 });
