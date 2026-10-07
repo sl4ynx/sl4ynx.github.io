@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sl4ynxIA – Generador de imágenes y compañeros con IA</title>
+<meta name="description" content="Crea imágenes y personajes con IA sin límites. Solo para mayores de 18 años.">
+<style>
+  :root {
+    --bg: #0a0710;
+    --bg-2: #120c1d;
+    --card: #181026;
+    --border: rgba(255,255,255,.08);
+    --text: #f4eefb;
+    --muted: #a99bc0;
+    --pink: #ff3d8b;
+    --purple: #8a4dff;
+    --grad: linear-gradient(135deg, var(--pink), var(--purple));
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+  a { color: inherit; text-decoration: none; }
+  .container { width: min(1180px, 92%); margin: 0 auto; }
+
+  /* Age gate */
+  #agegate {
+    position: fixed; inset: 0; z-index: 100;
+    background: rgba(8,5,14,.92); backdrop-filter: blur(14px);
+    display: flex; align-items: center; justify-content: center; padding: 20px;
+  }
+  #agegate.hidden { display: none; }
+  .gate-box {
+    max-width: 440px; text-align: center; background: var(--card);
+    border: 1px solid var(--border); border-radius: 24px; padding: 40px 32px;
+  }
+  .gate-box h2 { font-size: 1.8rem; margin-bottom: 12px; }
+  .gate-box p { color: var(--muted); margin-bottom: 26px; }
+  .gate-actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+
+  /* Buttons */
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+    padding: 12px 26px; border-radius: 999px; font-weight: 600; font-size: .95rem;
+    border: 1px solid transparent; cursor: pointer; transition: transform .2s, box-shadow .2s, background .2s;
+    font-family: inherit; color: var(--text);
+  }
+  .btn:hover { transform: translateY(-2px); }
+  .btn-primary { background: var(--grad); box-shadow: 0 8px 30px rgba(255,61,139,.35); }
+  .btn-primary:hover { box-shadow: 0 12px 38px rgba(255,61,139,.55); }
+  .btn-ghost { background: transparent; border-color: var(--border); }
+  .btn-ghost:hover { background: rgba(255,255,255,.06); }
+  .btn-lg { padding: 16px 36px; font-size: 1.05rem; }
+
+  /* Nav */
+  header {
+    position: sticky; top: 0; z-index: 50;
+    background: rgba(10,7,16,.7); backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--border);
+  }
+  nav { display: flex; align-items: center; justify-content: space-between; height: 70px; }
+  .logo { font-weight: 800; font-size: 1.4rem; letter-spacing: -.5px; }
+  .logo span { background: var(--grad); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .nav-links { display: flex; gap: 32px; color: var(--muted); font-size: .95rem; }
+  .nav-links a:hover { color: var(--text); }
+  .nav-cta { display: flex; gap: 10px; }
+
+  /* Hero */
+  .hero { position: relative; padding: 110px 0 90px; text-align: center; }
+  .hero::before, .hero::after {
+    content: ""; position: absolute; border-radius: 50%; filter: blur(110px); z-index: -1; opacity: .5;
+  }
+  .hero::before { width: 460px; height: 460px; background: var(--pink); top: -80px; left: -120px; }
+  .hero::after { width: 520px; height: 520px; background: var(--purple); top: 60px; right: -160px; }
+  .badge {
+    display: inline-block; padding: 6px 16px; border-radius: 999px; font-size: .82rem;
+    border: 1px solid var(--border); background: rgba(255,255,255,.04); color: var(--muted); margin-bottom: 26px;
+  }
+  .badge b { color: var(--pink); }
+  h1 { font-size: clamp(2.6rem, 6.5vw, 5rem); line-height: 1.05; letter-spacing: -2px; font-weight: 800; }
+  .grad-text { background: var(--grad); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .hero p.lead { max-width: 620px; margin: 24px auto 38px; color: var(--muted); font-size: 1.15rem; }
+  .hero-cta { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+  .stats { display: flex; justify-content: center; gap: 56px; margin-top: 64px; flex-wrap: wrap; }
+  .stats div strong { display: block; font-size: 2rem; }
+  .stats div span { color: var(--muted); font-size: .9rem; }
+
+  /* Sections */
+  section { padding: 90px 0; }
+  .section-head { text-align: center; max-width: 640px; margin: 0 auto 56px; }
+  .section-head h2 { font-size: clamp(2rem, 4vw, 2.8rem); letter-spacing: -1px; line-height: 1.15; margin-bottom: 14px; }
+  .section-head p { color: var(--muted); }
+
+  /* Gallery */
+  .gallery { columns: 4 240px; column-gap: 16px; }
+  .shot {
+    break-inside: avoid; margin-bottom: 16px; border-radius: 18px; overflow: hidden; position: relative;
+    border: 1px solid var(--border); transition: transform .3s;
+  }
+  .shot:hover { transform: scale(1.02); }
+  .shot::after {
+    content: attr(data-label); position: absolute; left: 12px; bottom: 12px;
+    background: rgba(0,0,0,.55); backdrop-filter: blur(8px); padding: 4px 12px; border-radius: 999px; font-size: .78rem;
+  }
+  .g1 { height: 280px; background: linear-gradient(160deg, #ff3d8b, #3a1668); }
+  .g2 { height: 360px; background: linear-gradient(200deg, #8a4dff, #120c1d); }
+  .g3 { height: 240px; background: linear-gradient(120deg, #ff8a5c, #ff3d8b); }
+  .g4 { height: 320px; background: linear-gradient(180deg, #2a1a4d, #ff3d8b); }
+  .g5 { height: 340px; background: linear-gradient(140deg, #4cc9f0, #8a4dff); }
+  .g6 { height: 260px; background: linear-gradient(210deg, #ff3d8b, #8a4dff); }
+  .g7 { height: 300px; background: linear-gradient(170deg, #1d1033, #8a4dff); }
+  .g8 { height: 250px; background: linear-gradient(130deg, #ffb347, #ff3d8b); }
+
+  /* Features */
+  .features { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
+  .card {
+    background: var(--card); border: 1px solid var(--border); border-radius: 22px; padding: 32px;
+    transition: border-color .3s, transform .3s;
+  }
+  .card:hover { border-color: rgba(255,61,139,.5); transform: translateY(-4px); }
+  .icon {
+    width: 52px; height: 52px; border-radius: 14px; background: var(--grad);
+    display: grid; place-items: center; font-size: 1.5rem; margin-bottom: 20px;
+  }
+  .card h3 { margin-bottom: 8px; font-size: 1.2rem; }
+  .card p { color: var(--muted); font-size: .95rem; }
+
+  /* Steps */
+  .steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 24px; counter-reset: s; }
+  .step { text-align: center; padding: 20px; }
+  .step::before {
+    counter-increment: s; content: counter(s);
+    display: grid; place-items: center; width: 56px; height: 56px; margin: 0 auto 18px;
+    border-radius: 50%; background: var(--grad); font-weight: 800; font-size: 1.3rem;
+  }
+  .step h3 { margin-bottom: 8px; }
+  .step p { color: var(--muted); font-size: .95rem; }
+
+  /* Pricing */
+  .pricing { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px; align-items: stretch; }
+  .plan { background: var(--card); border: 1px solid var(--border); border-radius: 24px; padding: 36px 30px; display: flex; flex-direction: column; }
+  .plan.featured { border: 1px solid transparent; background: linear-gradient(var(--card), var(--card)) padding-box, var(--grad) border-box; position: relative; }
+  .plan.featured::before {
+    content: "Más popular"; position: absolute; top: -13px; left: 50%; transform: translateX(-50%);
+    background: var(--grad); padding: 3px 16px; border-radius: 999px; font-size: .78rem; font-weight: 700;
+  }
+  .plan h3 { font-size: 1.2rem; }
+  .price { font-size: 2.8rem; font-weight: 800; margin: 12px 0 20px; }
+  .price small { font-size: 1rem; color: var(--muted); font-weight: 400; }
+  .plan ul { list-style: none; margin-bottom: 28px; flex: 1; }
+  .plan li { padding: 7px 0; color: var(--muted); font-size: .95rem; }
+  .plan li::before { content: "✓"; color: var(--pink); margin-right: 10px; font-weight: 700; }
+
+  /* FAQ */
+  .faq { max-width: 780px; margin: 0 auto; }
+  details { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 20px 24px; margin-bottom: 12px; }
+  summary { cursor: pointer; font-weight: 600; list-style: none; display: flex; justify-content: space-between; }
+  summary::after { content: "+"; color: var(--pink); font-size: 1.4rem; line-height: 1; }
+  details[open] summary::after { content: "–"; }
+  details p { color: var(--muted); margin-top: 12px; font-size: .95rem; }
+
+  /* CTA */
+  .cta-box {
+    text-align: center; padding: 70px 30px; border-radius: 32px; background: var(--grad);
+    position: relative; overflow: hidden;
+  }
+  .cta-box h2 { font-size: clamp(2rem, 4vw, 2.8rem); margin-bottom: 14px; letter-spacing: -1px; }
+  .cta-box p { opacity: .9; margin-bottom: 30px; }
+  .cta-box .btn { background: #fff; color: #1a0b2e; }
+
+  footer { border-top: 1px solid var(--border); padding: 40px 0; color: var(--muted); font-size: .88rem; }
+  .foot { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 20px; }
+  .foot nav { height: auto; gap: 24px; }
+
+  @media (max-width: 800px) {
+    .nav-links { display: none; }
+    .hero { padding-top: 70px; }
+    .stats { gap: 30px; }
+  }
+</style>
+</head>
+<body>
+
+<div id="agegate">
+  <div class="gate-box">
+    <h2>🔞 Contenido para adultos</h2>
+    <p>Este sitio está destinado exclusivamente a personas mayores de 18 años. Al entrar confirmas que cumples la edad legal en tu país.</p>
+    <div class="gate-actions">
+      <button class="btn btn-primary" id="enter">Tengo 18 años o más</button>
+      <a class="btn btn-ghost" href="https://www.google.com">Salir</a>
+    </div>
+  </div>
+</div>
+
+<header>
+  <div class="container">
+    <nav>
+      <a href="#" class="logo">Sl4ynx<span>IA</span></a>
+      <div class="nav-links">
+        <a href="#galeria">Galería</a>
+        <a href="#funciones">Funciones</a>
+        <a href="#como">Cómo funciona</a>
+        <a href="#gratis">Gratis</a>
+        <a href="#faq">FAQ</a>
+      </div>
+      <div class="nav-cta">
+        <a href="login.html" class="btn btn-ghost">Entrar</a>
+        <a href="login.html?tab=register" class="btn btn-primary">Empezar</a>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section class="hero">
+    <div class="container">
+      <span class="badge"><b>Nuevo</b> · Modelo v3 con realismo mejorado</span>
+      <h1>Da vida a tu <span class="grad-text">imaginación</span><br>con inteligencia artificial</h1>
+      <p class="lead">Genera imágenes, crea personajes únicos y conversa con compañeros virtuales. Sin filtros innecesarios, privado y en segundos.</p>
+      <div class="hero-cta">
+        <a href="login.html?tab=register" class="btn btn-primary btn-lg">Crear ahora gratis</a>
+        <a href="#galeria" class="btn btn-ghost btn-lg">Ver galería</a>
+      </div>
+      <div class="stats">
+        <div><strong>2M+</strong><span>Imágenes generadas</span></div>
+        <div><strong>150K</strong><span>Usuarios activos</span></div>
+        <div><strong>4.9★</strong><span>Valoración media</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="galeria">
+    <div class="container">
+      <div class="section-head">
+        <h2>Creaciones de la <span class="grad-text">comunidad</span></h2>
+        <p>Estilos infinitos: realista, anime, fantasía, ilustración y más.</p>
+      </div>
+      <div class="gallery">
+        <div class="shot g1" data-label="Realista"></div>
+        <div class="shot g2" data-label="Anime"></div>
+        <div class="shot g3" data-label="Fantasía"></div>
+        <div class="shot g4" data-label="Cyberpunk"></div>
+        <div class="shot g5" data-label="Ilustración"></div>
+        <div class="shot g6" data-label="Retrato"></div>
+        <div class="shot g7" data-label="Digital art"></div>
+        <div class="shot g8" data-label="3D"></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="funciones">
+    <div class="container">
+      <div class="section-head">
+        <h2>Todo lo que necesitas en <span class="grad-text">un solo lugar</span></h2>
+        <p>Herramientas potentes con una interfaz sencilla.</p>
+      </div>
+      <div class="features">
+        <div class="card"><div class="icon">🎨</div><h3>Generador de imágenes</h3><p>Describe lo que imaginas y obtén resultados de alta calidad en segundos con múltiples estilos.</p></div>
+        <div class="card"><div class="icon">💬</div><h3>Compañeros IA</h3><p>Chatea con personajes con personalidad propia, memoria y voz natural.</p></div>
+        <div class="card"><div class="icon">🧬</div><h3>Personajes personalizados</h3><p>Diseña apariencia, carácter e historia. Mantén la coherencia entre imágenes.</p></div>
+        <div class="card"><div class="icon">⚡</div><h3>Ultra rápido</h3><p>Infraestructura optimizada para generar en menos de 5 segundos.</p></div>
+        <div class="card"><div class="icon">🔒</div><h3>100% privado</h3><p>Tus creaciones y conversaciones son tuyas. Cifrado y borrado cuando quieras.</p></div>
+        <div class="card"><div class="icon">🖼️</div><h3>Mejora y edición</h3><p>Escala a 4K, retoca zonas concretas y varía cualquier resultado.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="como">
+    <div class="container">
+      <div class="section-head">
+        <h2>Cómo <span class="grad-text">funciona</span></h2>
+        <p>Tres pasos y listo.</p>
+      </div>
+      <div class="steps">
+        <div class="step"><h3>Describe</h3><p>Escribe tu idea o elige una plantilla de estilo.</p></div>
+        <div class="step"><h3>Genera</h3><p>La IA crea varias opciones en segundos.</p></div>
+        <div class="step"><h3>Perfecciona</h3><p>Ajusta, escala y descarga tu favorita.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="gratis">
+    <div class="container">
+      <div class="section-head">
+        <h2>100% <span class="grad-text">gratis</span></h2>
+        <p>Sin suscripciones, sin tarjeta y sin sorpresas.</p>
+      </div>
+      <div class="pricing" style="max-width:420px;margin:0 auto">
+        <div class="plan featured">
+          <h3>Todo incluido</h3>
+          <div class="price">0€<small>/siempre</small></div>
+          <ul><li>Créditos nuevos cada día</li><li>Generador de imágenes</li><li>Video con IA</li><li>Personajes personalizados</li><li>Tus creaciones, privadas</li></ul>
+          <a href="login.html?tab=register" class="btn btn-primary">Crear cuenta gratis</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="faq">
+    <div class="container">
+      <div class="section-head"><h2>Preguntas <span class="grad-text">frecuentes</span></h2></div>
+      <div class="faq">
+        <details><summary>¿Necesito ser mayor de edad?</summary><p>Sí. El acceso está restringido a mayores de 18 años y está prohibido generar contenido que represente a menores o a personas reales sin consentimiento.</p></details>
+        <details><summary>¿Mis datos son privados?</summary><p>Tus imágenes y chats son privados por defecto y puedes eliminarlos en cualquier momento desde tu cuenta.</p></details>
+        <details><summary>¿Es realmente gratis?</summary><p>Sí. No hay planes de pago. Cada día recibes créditos nuevos para generar imágenes y videos.</p></details>
+        <details><summary>¿Por qué hay un límite diario?</summary><p>Generar con IA consume recursos. El límite diario permite que el servicio siga siendo gratuito para todos.</p></details>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="container">
+      <div class="cta-box">
+        <h2>Empieza a crear hoy</h2>
+        <p>Es gratis y no necesitas tarjeta.</p>
+        <a href="login.html?tab=register" class="btn btn-lg">Crear cuenta gratis</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="container foot">
+    <span>© 2026 Sl4ynxIA. Solo para mayores de 18 años.</span>
+    <nav>
+      <a href="#">Términos</a>
+      <a href="#">Privacidad</a>
+      <a href="#">Cookies</a>
+      <a href="#">Contacto</a>
+    </nav>
+  </div>
+</footer>
+
+<script src="index.js" defer></script>
+</body>
+</html>
