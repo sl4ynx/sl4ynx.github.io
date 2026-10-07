@@ -85,6 +85,8 @@
   .gen-preview { aspect-ratio: 1; max-width: 320px; border-radius: 18px; border: 1px dashed var(--border); display: grid; place-items: center; color: var(--muted); margin-top: 18px; overflow: hidden; text-align: center; padding: 10px; }
   .gen-preview.wide { aspect-ratio: auto; max-width: 480px; min-height: 160px; }
   .gen-preview img, .gen-preview video { width: 100%; height: 100%; object-fit: cover; }
+  .photo-source { display: flex; align-items: center; gap: 12px; margin: -4px 0 16px; color: var(--muted); font-size: .85rem; }
+  .photo-source img { width: 64px; height: 64px; object-fit: cover; border-radius: 8px; border: 1px solid var(--border); }
   .bar { height: 8px; background: var(--bg-2); border-radius: 99px; overflow: hidden; margin-top: 10px; }
   .bar i { display: block; height: 100%; background: var(--grad); }
   .menu-toggle { display: none; }
@@ -190,6 +192,9 @@
           <div class="field"><label for="v-char">Personaje (opcional)</label><select id="v-char"><option value="">Ninguno</option></select></div>
           <div class="field"><label for="v-src">Imagen de partida (opcional)</label><select id="v-src"><option value="">Solo texto</option></select></div>
         </div>
+        <p class="muted" style="margin-bottom:12px">Si subes una foto, se usará en lugar de la imagen de Mis creaciones.</p>
+        <div class="field"><label for="v-photo">O subir una foto (JPG, PNG o WebP; máximo 8 MB)</label><input id="v-photo" type="file" accept="image/jpeg,image/png,image/webp"></div>
+        <div id="v-photo-preview" class="photo-source hidden"></div>
         <button class="btn btn-primary" id="v-btn">Generar video (<span id="v-cost">5</span> créditos)</button>
         <div class="gen-preview wide" id="v-preview">La vista previa aparecerá aquí</div>
       </div>

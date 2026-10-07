@@ -3,10 +3,12 @@
   const $ = (id) => document.getElementById(id);
   const API_BASE = (window.API_BASE || '').replace(/\/$/, '');
   const VIDEO_COST = { 5: 5, 10: 10 };
+  const MAX_SOURCE_IMAGE_BYTES = 8 * 1024 * 1024;
 
   const state = { me: null, characters: [], media: [] };
   let pollTimer = null;
   const lastGen = { image: null, video: null };
+  let videoSourceUrl = null;
 
   // ---------- API ----------
   async function api(path, { method = 'GET', body } = {}) {
@@ -241,13 +243,49 @@
   });
 
   $('v-dur').onchange = () => { $('v-cost').textContent = VIDEO_COST[$('v-dur').value]; };
-  $('v-btn').onclick = () => submitGeneration({
+  $('v-photo').onchange = () => {
+    const preview = $('v-photo-preview');
+    const file = $('v-photo').files[0];
+    if (videoSourceUrl) URL.revokeObjectURL(videoSourceUrl);
+    preview.replaceChildren();
+    if (!file) { preview.classList.add('hidden'); return; }
+    if (!['image/jpeg', 'image/png', 'image/webp'].includes(file.type) || file.size > MAX_SOURCE_IMAGE_BYTES) {
+      $('v-photo').value = '';
+      preview.classList.add('hidden');
+      return flash($('vid-msg'), 'Elige una foto JPG, PNG o WebP de hasta 8 MB.');
+    }
+    videoSourceUrl = URL.createObjectURL(file);
+    preview.append(el('img', { src: videoSourceUrl, alt: 'Foto seleccionada' }), el('span', { text: file.name }));
+    preview.classList.remove('hidden');
+    clearFlash($('vid-msg'));
+  };
+
+  function readAsDataUrl(file) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = () => reject(new Error('No se pudo leer la foto.'));
+      reader.readAsDataURL(file);
+    });
+  }
+
+  $('v-btn').onclick = async () => {
+    const file = $('v-photo').files[0];
+    if (file && (!['image/jpeg', 'image/png', 'image/webp'].includes(file.type) || file.size > MAX_SOURCE_IMAGE_BYTES)) {
+      return flash($('vid-msg'), 'Elige una foto JPG, PNG o WebP de hasta 8 MB.');
+    }
+    let sourceImage;
+    try { if (file) sourceImage = await readAsDataUrl(file); }
+    catch (err) { return flash($('vid-msg'), err.message); }
+    return submitGeneration({
     path: '/media/videos', kind: 'video', msg: $('vid-msg'), btn: $('v-btn'),
     body: {
       prompt: $('v-prompt').value, style: $('v-style').value, duration: Number($('v-dur').value),
-      ratio: $('v-ratio').value, character: $('v-char').value, sourceId: $('v-src').value || undefined,
+      ratio: $('v-ratio').value, character: $('v-char').value,
+      sourceId: file ? undefined : ($('v-src').value || undefined), sourceImage,
     },
-  });
+    });
+  };
 
   // ---------- Personajes ----------
   $('char-form').addEventListener('submit', async (e) => {
