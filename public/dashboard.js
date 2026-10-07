@@ -2,7 +2,6 @@
   'use strict';
   const $ = (id) => document.getElementById(id);
   const API_BASE = (window.API_BASE || '').replace(/\/$/, '');
-  const VIDEO_COST = { 5: 5, 10: 10 };
   const MAX_SOURCE_IMAGE_BYTES = 8 * 1024 * 1024;
 
   const state = { me: null, characters: [], media: [] };
@@ -100,7 +99,6 @@
       const [chars, media] = await Promise.all([api('/characters'), api('/media')]);
       state.characters = chars.characters;
       state.media = media.media;
-      state.me.credits = media.credits;
     } catch (err) {
       if (err.status === 401) return showAuth();
     }
@@ -184,13 +182,10 @@
     $('u-avatar').textContent = u.name.charAt(0).toUpperCase();
     $('u-name').textContent = u.name;
     $('u-plan').textContent = 'Plan ' + u.plan;
-    $('s-credits').textContent = u.credits;
     $('s-creations').textContent = images.filter((m) => m.status === 'done').length;
     $('s-videos').textContent = videos.filter((m) => m.status === 'done').length;
     $('s-chars').textContent = state.characters.length;
     $('s-since').textContent = fmtDate(u.createdAt);
-    $('credit-text').textContent = `${u.credits} de ${u.dailyCredits} créditos gratis de hoy (se renuevan cada día)`;
-    $('credit-bar').style.width = Math.min(100, (u.credits / u.dailyCredits) * 100) + '%';
 
     fill($('recent'), state.media.slice(0, 4), false, 'Aún no has creado nada.');
     fill($('all-creations'), images, true, 'Todavía no tienes imágenes. ¡Genera la primera!');
@@ -224,8 +219,7 @@
     clearFlash(msg);
     btn.disabled = true;
     try {
-      const { media, credits } = await api(path, { method: 'POST', body });
-      state.me.credits = credits;
+      const { media } = await api(path, { method: 'POST', body });
       state.media.unshift(media);
       lastGen[kind] = media.id;
       render();
@@ -242,7 +236,6 @@
     body: { prompt: $('g-prompt').value, style: $('g-style').value, character: $('g-char').value },
   });
 
-  $('v-dur').onchange = () => { $('v-cost').textContent = VIDEO_COST[$('v-dur').value]; };
   $('v-photo').onchange = () => {
     const preview = $('v-photo-preview');
     const file = $('v-photo').files[0];

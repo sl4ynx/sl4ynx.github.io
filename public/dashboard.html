@@ -139,16 +139,10 @@
 
     <section data-section="overview">
       <div class="grid">
-        <div class="card stat"><span>Créditos de hoy</span><strong id="s-credits">0</strong></div>
         <div class="card stat"><span>Imágenes creadas</span><strong id="s-creations">0</strong></div>
         <div class="card stat"><span>Videos creados</span><strong id="s-videos">0</strong></div>
         <div class="card stat"><span>Personajes</span><strong id="s-chars">0</strong></div>
         <div class="card stat"><span>Miembro desde</span><strong id="s-since" class="small"></strong></div>
-      </div>
-      <div class="card mb">
-        <h3>Créditos gratuitos</h3>
-        <span id="credit-text" class="muted"></span>
-        <div class="bar"><i id="credit-bar"></i></div>
       </div>
       <div class="card">
         <h3>Últimas creaciones</h3>
@@ -168,7 +162,7 @@
             <select id="g-char"><option value="">Ninguno</option></select>
           </div>
         </div>
-        <button class="btn btn-primary" id="g-btn">Generar (1 crédito)</button>
+        <button class="btn btn-primary" id="g-btn">Generar imagen</button>
         <div class="gen-preview" id="g-preview">La vista previa aparecerá aquí</div>
       </div>
     </section>
@@ -195,7 +189,7 @@
         <p class="muted" style="margin-bottom:12px">Si subes una foto, se usará en lugar de la imagen de Mis creaciones.</p>
         <div class="field"><label for="v-photo">O subir una foto (JPG, PNG o WebP; máximo 8 MB)</label><input id="v-photo" type="file" accept="image/jpeg,image/png,image/webp"></div>
         <div id="v-photo-preview" class="photo-source hidden"></div>
-        <button class="btn btn-primary" id="v-btn">Generar video (<span id="v-cost">5</span> créditos)</button>
+        <button class="btn btn-primary" id="v-btn">Generar video</button>
         <div class="gen-preview wide" id="v-preview">La vista previa aparecerá aquí</div>
       </div>
     </section>
