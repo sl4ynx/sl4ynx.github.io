@@ -38,6 +38,6 @@ export const config = {
     imageModel: process.env.REPLICATE_IMAGE_MODEL || '',
     videoModel: process.env.REPLICATE_VIDEO_MODEL || '',
     imageInput: process.env.REPLICATE_IMAGE_INPUT || '{"prompt":"{{prompt}}"}',
-    videoInput: process.env.REPLICATE_VIDEO_INPUT || '{"prompt":"{{prompt}}"}',
+    videoInput: process.env.REPLICATE_VIDEO_INPUT || '{"prompt":"{{prompt}}","image":"{{image}}","duration":"{{duration}}"}',
   },
 };

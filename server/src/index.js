@@ -31,6 +31,7 @@ app.use(helmet({
   },
 }));
 app.use(cookieParser());
+app.use('/api/media/videos', express.json({ limit: '11mb' }));
 app.use(express.json({ limit: '20kb' }));
 
 // CORS solo para los orígenes del front-end configurados en CLIENT_ORIGIN.
